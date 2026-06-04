@@ -1,6 +1,3 @@
-Here's the **properly formatted complete README.md** file. Just copy and paste this entire thing:
-
-```markdown
 # 💧 Hydroponic Water Health Dashboard
 
 A real-time monitoring dashboard for hydroponic systems that tracks water quality parameters and provides AI-powered insights for optimal plant growth.
