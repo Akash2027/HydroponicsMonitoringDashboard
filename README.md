@@ -2,7 +2,7 @@
 
 A real-time monitoring dashboard for hydroponic systems that tracks water quality parameters and provides AI-powered insights for optimal plant growth.
 
-![Dashboard Preview](https://via.placeholder.com/1200x600/1e293b/60a5fa?text=Hydroponic+Dashboard)
+
 
 ## 🌱 Overview
 
