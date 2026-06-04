@@ -159,7 +159,6 @@ HydroponicsMonitoringDashboard/
 │   ├── components/
 │   │   ├── AlertCards.jsx
 │   │   ├── DashboardCards.jsx
-│   │   ├── StatusBadge.jsx
 │   │   └── TrendChart.jsx
 │   ├── App.css
 │   ├── App.jsx
