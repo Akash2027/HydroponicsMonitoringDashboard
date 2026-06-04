@@ -1,4 +1,4 @@
-# 💧 Hydroponic Water Health Dashboard
+# 💧 Hydroponic Water Health Monitoring Dashboard
 
 A real-time monitoring dashboard for hydroponic systems that tracks water quality parameters and provides AI-powered insights for optimal plant growth.
 
