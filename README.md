@@ -274,6 +274,22 @@ VITE_FIREBASE_APP_ID=your_app_id
 
 ---
 
+## 🚢 Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. Push code to GitHub
+2. Go to [vercel.com](https://vercel.com)
+3. Import your GitHub repository
+4. Add environment variables (same as `.env`)
+5. Click Deploy
+
+### Auto-deploy Setup
+
+Once connected to Vercel, every `git push` automatically redeploys your dashboard.
+
+---
+
 ## 📝 License
 
 This project is private and proprietary.
