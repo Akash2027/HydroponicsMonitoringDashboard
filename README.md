@@ -4,7 +4,9 @@ A real-time monitoring dashboard for hydroponic systems that tracks water qualit
 
 ---
 
-**Live Demo:** [https://hydroponicsmonitoringdashboard.vercel.app](https://hydroponicsmonitoringdashboard.vercel.app)
+## 🌐 Live Demo
+**Web Application:** 
+[https://hydroponicsmonitoringdashboard.vercel.app](https://hydroponicsmonitoringdashboard.vercel.app)
 
 ## 🌱 Overview
 
