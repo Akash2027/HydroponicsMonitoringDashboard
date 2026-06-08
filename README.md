@@ -4,6 +4,8 @@ A real-time monitoring dashboard for hydroponic systems that tracks water qualit
 
 ---
 
+**Live Demo:** [https://hydroponicsmonitoringdashboard.vercel.app](https://hydroponicsmonitoringdashboard.vercel.app)
+
 ## 🌱 Overview
 
 This dashboard monitors critical hydroponic water parameters including pH, TDS (Total Dissolved Solids), CF (Conductivity Factor), turbidity, and temperature. It connects to a Firebase Realtime Database to display live sensor data and historical trends, with intelligent interpretation of readings to help maintain optimal growing conditions.
@@ -324,6 +326,3 @@ For support or questions, please open an issue on GitHub.
 ---
 
 **Built with 💧 for hydroponic enthusiasts**
-
-**Live Demo:** [https://hydroponicsmonitoringdashboard.vercel.app](https://hydroponicsmonitoringdashboard.vercel.app)
-```
