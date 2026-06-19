@@ -1,41 +1,25 @@
 import TrendChart from "./TrendChart";
 import CFRangeTable from "./CFRangeTable";
-import AlertCards from "./AlertCards"; // This now points to the AI version
+import AlertCards from "./AlertCards";
 
 export default function DashboardCards({ data, history, isConnected, darkMode }) {
-  const getSensorStatus = (type, value) => {
-    if (!value) return "normal";
+  
+  // Function to get CF status and color based on CF score (REVERSED - higher = better)
+  const getCFStatus = (cf) => {
+    if (!cf) return { text: 'No Data', color: '#94a3b8', class: '' };
     
-    switch(type) {
-      case "ph":
-        if (value >= 5.5 && value <= 6.5) return "optimal";
-        if (value >= 5.0 && value <= 7.0) return "warning";
-        return "critical";
-      case "tds":
-        if (value >= 1000 && value <= 1500) return "optimal";
-        if (value >= 800 && value <= 1800) return "warning";
-        return "critical";
-      case "turbidity":
-        if (value < 5) return "optimal";
-        if (value < 10) return "warning";
-        return "critical";
-      case "temperature":
-        if (value >= 18 && value <= 25) return "optimal";
-        if (value >= 15 && value <= 28) return "warning";
-        return "critical";
-      default:
-        return "normal";
+    if (cf >= 81 && cf <= 100) {
+      return { text: 'Excellent / No Contamination', color: '#22c55e', class: 'excellent' };
+    } else if (cf >= 61 && cf <= 80) {
+      return { text: 'Mild Anomaly', color: '#84cc16', class: 'mild' };
+    } else if (cf >= 41 && cf <= 60) {
+      return { text: 'Significant Deviation', color: '#f59e0b', class: 'significant' };
+    } else if (cf >= 21 && cf <= 40) {
+      return { text: 'Contamination Likely', color: '#f97316', class: 'likely' };
+    } else if (cf >= 0 && cf <= 20) {
+      return { text: 'Severe Contamination', color: '#ef4444', class: 'severe' };
     }
-  };
-
-  const getStatusColor = (status) => {
-    if (!status) return "normal";
-    const lower = status.toLowerCase();
-    if (lower === "healthy") return "healthy";
-    if (lower === "degraded") return "degraded";
-    if (lower === "warning") return "warning";
-    if (lower === "critical") return "critical";
-    return "normal";
+    return { text: 'Unknown', color: '#94a3b8', class: '' };
   };
 
   if (!isConnected) {
@@ -47,96 +31,54 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
     );
   }
 
-  const phStatus = getSensorStatus('ph', data?.pH);
-  const tdsStatus = getSensorStatus('tds', data?.tds);
-  const turbidityStatus = getSensorStatus('turbidity', data?.turbidity);
-  const tempStatus = getSensorStatus('temperature', data?.temperature);
+  // Get CF status
+  const cfStatus = getCFStatus(data?.cf);
 
   return (
     <div className="main-dashboard">
       {/* Left Section */}
       <div className="left-section">
-        {/* Sensor Grid */}
+        {/* Sensor Grid - No colored borders, no status labels */}
         <div className="sensor-grid">
-          <div className="sensor-card normal">
+          <div className="sensor-card">
             <div className="sensor-label">💧 CF SCORE</div>
             <div className="sensor-value">{data?.cf?.toFixed(1) || "--"}</div>
           </div>
 
-          <div className={`sensor-card ${phStatus}`}>
+          <div className="sensor-card">
             <div className="sensor-label">🧪 pH LEVEL</div>
             <div className="sensor-value">{data?.pH?.toFixed(2) || "--"}</div>
-            {data?.pH && (
-              <div className={`sensor-status ${phStatus}`}>
-                {data.pH < 5.5 ? "Too Acidic" : data.pH > 6.5 ? "Too Alkaline" : "Optimal"}
-              </div>
-            )}
           </div>
 
-          <div className={`sensor-card ${tdsStatus}`}>
+          <div className="sensor-card">
             <div className="sensor-label">📊 TDS</div>
             <div className="sensor-value">{data?.tds?.toFixed(1) || "--"}<span className="sensor-unit">ppm</span></div>
-            {data?.tds && (
-              <div className={`sensor-status ${tdsStatus}`}>
-                {data.tds < 800 ? "Low" : data.tds > 1800 ? "High" : "Normal"}
-              </div>
-            )}
           </div>
 
-          <div className={`sensor-card ${turbidityStatus}`}>
+          <div className="sensor-card">
             <div className="sensor-label">🌊 TURBIDITY</div>
             <div className="sensor-value">{data?.turbidity || "--"}<span className="sensor-unit">NTU</span></div>
-            {data?.turbidity && (
-              <div className={`sensor-status ${turbidityStatus}`}>
-                {data.turbidity < 5 ? "Clean" : data.turbidity < 10 ? "Slight" : "Contaminated"}
-              </div>
-            )}
           </div>
 
-          <div className={`sensor-card ${tempStatus}`}>
+          <div className="sensor-card">
             <div className="sensor-label">🌡️ TEMPERATURE</div>
             <div className="sensor-value">{data?.temperature?.toFixed(1) || "--"}<span className="sensor-unit">°C</span></div>
-            {data?.temperature && (
-              <div className={`sensor-status ${tempStatus}`}>
-                {data.temperature < 18 ? "Cold" : data.temperature > 25 ? "Hot" : "Ideal"}
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Status Info Row - 3 Columns: Legend | CF Range | System Status */}
+        {/* CF Range Table & System Status - 2 equal boxes */}
         <div className="status-info-row">
-          {/* Column 1: Status Legend - Vertical */}
-          <div className="status-legend-vertical">
-            <div className="status-legend-title">📌 Status Legend</div>
-            <div className="legend-items-vertical">
-              <div className="legend-item-vertical">
-                <div className="legend-color-box-vertical optimal"></div>
-                <span>Optimal</span>
-              </div>
-              <div className="legend-item-vertical">
-                <div className="legend-color-box-vertical warning"></div>
-                <span>Warning</span>
-              </div>
-              <div className="legend-item-vertical">
-                <div className="legend-color-box-vertical critical"></div>
-                <span>Critical</span>
-              </div>
-              <div className="legend-item-vertical">
-                <div className="legend-color-box-vertical normal"></div>
-                <span>Normal</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Column 2: CF Range Table - Compact */}
+          {/* CF Range Table */}
           <CFRangeTable />
-
-          {/* Column 3: System Status */}
+          
+          {/* System Status - Color based on CF score */}
           <div className="status-display-compact">
             <div className="status-display-title">🔄 System Status</div>
-            <div className={`status-display-value ${getStatusColor(data?.status)}`}>
-              {data?.status || "No Data"}
+            <div className={`status-display-value ${cfStatus.class}`} style={{ color: cfStatus.color }}>
+              {cfStatus.text}
+            </div>
+            <div className="status-cf-score" style={{ color: '#94a3b8', fontSize: '12px', marginTop: '4px' }}>
+              CF Score: {data?.cf?.toFixed(1) || '--'}
             </div>
           </div>
         </div>
