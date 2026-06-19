@@ -1,5 +1,6 @@
 import TrendChart from "./TrendChart";
-import AlertCards from "./AlertCards";
+import CFRangeTable from "./CFRangeTable";
+import AlertCards from "./AlertCards"; // This now points to the AI version
 
 export default function DashboardCards({ data, history, isConnected, darkMode }) {
   const getSensorStatus = (type, value) => {
@@ -46,7 +47,6 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
     );
   }
 
-  // Get status for each sensor to apply right border color
   const phStatus = getSensorStatus('ph', data?.pH);
   const tdsStatus = getSensorStatus('tds', data?.tds);
   const turbidityStatus = getSensorStatus('turbidity', data?.turbidity);
@@ -58,13 +58,11 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
       <div className="left-section">
         {/* Sensor Grid */}
         <div className="sensor-grid">
-          {/* CF Score - No status border needed */}
           <div className="sensor-card normal">
             <div className="sensor-label">💧 CF SCORE</div>
             <div className="sensor-value">{data?.cf?.toFixed(1) || "--"}</div>
           </div>
 
-          {/* pH - with colored right border */}
           <div className={`sensor-card ${phStatus}`}>
             <div className="sensor-label">🧪 pH LEVEL</div>
             <div className="sensor-value">{data?.pH?.toFixed(2) || "--"}</div>
@@ -75,7 +73,6 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
             )}
           </div>
 
-          {/* TDS - with colored right border */}
           <div className={`sensor-card ${tdsStatus}`}>
             <div className="sensor-label">📊 TDS</div>
             <div className="sensor-value">{data?.tds?.toFixed(1) || "--"}<span className="sensor-unit">ppm</span></div>
@@ -86,7 +83,6 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
             )}
           </div>
 
-          {/* Turbidity - with colored right border */}
           <div className={`sensor-card ${turbidityStatus}`}>
             <div className="sensor-label">🌊 TURBIDITY</div>
             <div className="sensor-value">{data?.turbidity || "--"}<span className="sensor-unit">NTU</span></div>
@@ -97,7 +93,6 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
             )}
           </div>
 
-          {/* Temperature - with colored right border */}
           <div className={`sensor-card ${tempStatus}`}>
             <div className="sensor-label">🌡️ TEMPERATURE</div>
             <div className="sensor-value">{data?.temperature?.toFixed(1) || "--"}<span className="sensor-unit">°C</span></div>
@@ -109,11 +104,40 @@ export default function DashboardCards({ data, history, isConnected, darkMode })
           </div>
         </div>
 
-        {/* Status Card */}
-        <div className="status-card">
-          <span className="status-label">System Status</span>
-          <div className={`status-value ${getStatusColor(data?.status)}`}>
-            {data?.status || "No Data"}
+        {/* Status Info Row - 3 Columns: Legend | CF Range | System Status */}
+        <div className="status-info-row">
+          {/* Column 1: Status Legend - Vertical */}
+          <div className="status-legend-vertical">
+            <div className="status-legend-title">📌 Status Legend</div>
+            <div className="legend-items-vertical">
+              <div className="legend-item-vertical">
+                <div className="legend-color-box-vertical optimal"></div>
+                <span>Optimal</span>
+              </div>
+              <div className="legend-item-vertical">
+                <div className="legend-color-box-vertical warning"></div>
+                <span>Warning</span>
+              </div>
+              <div className="legend-item-vertical">
+                <div className="legend-color-box-vertical critical"></div>
+                <span>Critical</span>
+              </div>
+              <div className="legend-item-vertical">
+                <div className="legend-color-box-vertical normal"></div>
+                <span>Normal</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: CF Range Table - Compact */}
+          <CFRangeTable />
+
+          {/* Column 3: System Status */}
+          <div className="status-display-compact">
+            <div className="status-display-title">🔄 System Status</div>
+            <div className={`status-display-value ${getStatusColor(data?.status)}`}>
+              {data?.status || "No Data"}
+            </div>
           </div>
         </div>
 

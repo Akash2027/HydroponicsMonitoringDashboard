@@ -1,4 +1,12 @@
+import AIInterpretation from './AIInterpretation';
+
 export default function AlertCards({ data }) {
+  return <AIInterpretation data={data} />;
+}
+
+
+
+/**export default function AlertCards({ data }) {
   const getAlerts = () => {
     const alerts = [];
     
@@ -91,3 +99,7 @@ export default function AlertCards({ data }) {
     </div>
   );
 }
+
+**/
+
+
